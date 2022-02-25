@@ -17,13 +17,15 @@ class Album(Authenticate):
         Authenticate.__init__(
             self, client_id, client_secret, refresh_token, API)
 
-    def Auth(func):
-        def warp(self, *args, **kwargs):
-            self.__access_token = self.access_token
-            return func(self, *args, **kwargs)
-        return warp
-
     def Album(self, albumHash: str) -> dict:
+        """Get additional information about an album.
+
+        Args:
+            albumHash (str): album hash
+
+        Returns:
+            dict: 
+        """        
         endpoint = f'{self.API}/3/album/{albumHash}'
         headers = {
             'Authorization': f'Client-ID {self.client_id}'
@@ -36,6 +38,14 @@ class Album(Authenticate):
         return response
 
     def AlbumImages(self, albumHash: str) -> dict:
+        """Return all of the images in the album.
+
+        Args:
+            albumHash (str): album hash
+
+        Returns:
+            dict: 
+        """        
         endpoint = f'{self.API}/3/album/{albumHash}/images'
         headers = {
             'Authorization': f'Client-ID {self.client_id}'
@@ -48,6 +58,15 @@ class Album(Authenticate):
         return response
 
     def AlbumImage(self, albumHash: str, imageHash:str) -> dict:
+        """Get information about an image in an album, any additional actions found in Image Endpoint will also work.
+
+        Args:
+            albumHash (str): album hash
+            imageHash (str): image hash
+
+        Returns:
+            dict:
+        """        
         endpoint = f'{self.API}/3/album/{albumHash}/images/{imageHash}'
         headers = {
             'Authorization': f'Client-ID {self.client_id}'

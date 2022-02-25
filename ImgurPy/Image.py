@@ -18,22 +18,17 @@ class Image(Authenticate):
         Authenticate.__init__(
             self, client_id, client_secret, refresh_token, API)
 
-    def Auth(func):
-        def warp(self, *args, **kwargs):
-            self.__access_token = self.access_token
-            return func(self, *args, **kwargs)
-        return warp
-
     def ImageUpload(
             self,
-            file: Union[str, bytes] = None,
-            type: str = 'file', **kwargs
+            file: Union[str, bytes],
+            type: str, 
+            **kwargs
     ) -> dict:
         """Upload a new image or video.
 
         Args:
-            file (Union[str, bytes], optional): file path, file bytes or file url. Defaults to None.
-            type (str, optional): file, base64 or url. Defaults to 'file'.  
+            file (Union[str, bytes]): file path, file bytes or file url.
+            type (str): file, base64 or url.
             album (str, optional): upload image to the album. Defaults to None.
             name (str, optional): image file name.
             title (str, optional): image title.
@@ -73,8 +68,8 @@ class Image(Authenticate):
         """Deletes an image.
 
         Args:
-            imageHash (str): _description_
-            auth (bool, optional): _description_. Defaults to False.
+            imageHash (str): image hash (auth is True) or image delete hash (auth is False).
+            auth (bool, optional): auth. Defaults to False.
         """
         endpoint = f'{self.API}/3/image/{imageHash}'
         headers = {'Authorization': f'Client-ID {self.client_id}'}
@@ -97,8 +92,8 @@ class Image(Authenticate):
         """Updates the title or description of an image.
 
         Args:
-            imageHash (str): _description_
-            auth (bool, optional): _description_. Defaults to False.
+            imageHash (str): image hash (auth is True) or image delete hash (auth is False).
+            auth (bool, optional): auth. Defaults to False.
         """
         endpoint = f'{self.API}/3/image/{imageHash}'
         headers = {'Authorization': f'Client-ID {self.client_id}'}

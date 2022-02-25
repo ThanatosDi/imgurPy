@@ -14,18 +14,23 @@ class Authenticate(Core):
         self.refresh_token = refresh_token
         self.API = API
 
-    def Auth(func):
-        def warp(self, *args, **kwargs):
-            self.__access_token = self.access_token
-            return func(self, *args, **kwargs)
-        return warp
-
     @property
-    def OAuth2(self):
+    def OAuth2(self) -> str:
+        """Generate refresh token link.
+
+        Returns:
+            str
+            
+        """
         return f'{self.API}/oauth2/authorize?client_id={self.client_id}&response_type=token'
 
     @property
     def access_token(self):
+        """Call GenerateAccessToken and return access token.
+
+        Returns:
+            str: access token
+        """        
         response = self.GenerateAccessToken()
         self.__access_token = response['access_token']
         return self.__access_token
@@ -49,9 +54,3 @@ class Authenticate(Core):
             data=payload
         ).json()
         return response
-
-    def Auth(func):
-        def warp(self):
-            self.access_token
-            func()
-        return warp

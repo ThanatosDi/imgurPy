@@ -11,10 +11,6 @@ Welcome to imgurPy's documentation!
    :caption: Contents:
 
    ImgurPy
-   Authenticate
-   Account
-   Album
-   Image
 
 Indices and tables
 ==================
