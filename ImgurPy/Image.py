@@ -50,9 +50,9 @@ class Image(Authenticate):
             if kwargs.get('auth', False) == True else ...)
 
         params = ['album', 'name', 'title', 'description']
-        for parm in params:
-            (payload.update({parm: kwargs.get(parm, '')})
-                if kwargs.get(parm, '') != '' else ...)
+        for param in params:
+            (payload.update({param: kwargs.get(param, '')})
+                if kwargs.get(param, '') != '' else ...)
 
         (payload.update({'image': file})
             if type == 'url' or isinstance(file, str) else ...)
@@ -85,5 +85,34 @@ class Image(Authenticate):
             'delete',
             endpoint,
             headers=headers,
+        ).json()
+        return response
+
+    def ImageUpdate(
+        self,
+        imageHash: str,
+        auth: bool = False,
+        **kwargs
+    ):
+        """Updates the title or description of an image.
+
+        Args:
+            imageHash (str): _description_
+            auth (bool, optional): _description_. Defaults to False.
+        """
+        endpoint = f'{self.API}/3/image/{imageHash}'
+        headers = {'Authorization': f'Client-ID {self.client_id}'}
+        params = ['title', 'description']
+        payload = {}
+        (headers.update({'Authorization': f'Bearer {self.access_token}'})
+            if auth == True else ...)
+        for param in params:
+            (payload.update({param: kwargs.get(param, '')})
+                if kwargs.get(param, '') != '' else ...)
+        response = self.make_request(
+            'post',
+            endpoint,
+            headers=headers,
+            data=payload,
         ).json()
         return response

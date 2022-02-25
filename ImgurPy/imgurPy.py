@@ -1,10 +1,11 @@
 from .Account import Account
 from .Album import Album
+from .Image import Image
 
 
-class ImgurAPI(Account, Album):
+class ImgurPy(Account, Album, Image):
     API = 'https://api.imgur.com'
-    __version__ = '0.0.1'
+    __version__ = '0.0.1beta'
 
     def __init__(
         self,
@@ -15,5 +16,7 @@ class ImgurAPI(Account, Album):
         Account.__init__(self, client_id, client_secret,
                          refresh_token, self.API)
         Album.__init__(self, client_id, client_secret,
+                       refresh_token, self.API)
+        Image.__init__(self, client_id, client_secret,
                        refresh_token, self.API)
         self.__access_token = None
