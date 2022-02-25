@@ -19,7 +19,7 @@ class Authenticate(Core):
         """Generate refresh token link.
 
         Returns:
-            str
+            str: refresh token link
             
         """
         return f'{self.API}/oauth2/authorize?client_id={self.client_id}&response_type=token'
@@ -39,7 +39,7 @@ class Authenticate(Core):
         """Given a user's refresh token, this endpoint generates an access token.
 
         Returns:
-            dict
+            dict: response of GenerateAccessToken
         """
         endpoint = f'{self.API}/oauth2/token'
         payload = {

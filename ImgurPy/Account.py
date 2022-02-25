@@ -25,7 +25,7 @@ class Account(Authenticate):
             username (str): username
 
         Returns:
-            dict
+            dict: response of AccountBase
         """
         endpoint = f'{self.API}/3/account/{username}'
         headers = {
@@ -37,7 +37,7 @@ class Account(Authenticate):
             headers=headers,
         ).json()
 
-    
+    # FIXME: 回傳型態不一致問題
     def AccountBlockStatus(self, username: str) -> dict:
         """Determine if the user making the request has blocked a username.
 
@@ -45,7 +45,7 @@ class Account(Authenticate):
             username (str): username
 
         Returns:
-            bool
+            bool: True or False
         """
         self.__access_token = self.access_token
         endpoint = f'{self.API}/account/v1/{username}/block'

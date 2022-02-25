@@ -21,7 +21,7 @@ class Image(Authenticate):
     def ImageUpload(
             self,
             file: Union[str, bytes],
-            type: str, 
+            type: str,
             **kwargs
     ) -> dict:
         """Upload a new image or video.
@@ -34,6 +34,8 @@ class Image(Authenticate):
             title (str, optional): image title.
             description (str, optional): image description.
             auth (bool, optional): if upload to hidden album, need to set True of auth. Default to False.
+        Return: 
+            dict:
         """
         endpoint = f'{self.API}/3/upload'
         headers = {'Authorization': f'Client-ID {self.client_id}'}
@@ -64,12 +66,14 @@ class Image(Authenticate):
         self,
         imageHash: str,
         auth: bool = False
-    ):
+    ) -> dict:
         """Deletes an image.
 
         Args:
             imageHash (str): image hash (auth is True) or image delete hash (auth is False).
             auth (bool, optional): auth. Defaults to False.
+        Return: 
+            dict:
         """
         endpoint = f'{self.API}/3/image/{imageHash}'
         headers = {'Authorization': f'Client-ID {self.client_id}'}
@@ -88,12 +92,14 @@ class Image(Authenticate):
         imageHash: str,
         auth: bool = False,
         **kwargs
-    ):
+    ) -> dict:
         """Updates the title or description of an image.
 
         Args:
             imageHash (str): image hash (auth is True) or image delete hash (auth is False).
             auth (bool, optional): auth. Defaults to False.
+        Return: 
+            dict:
         """
         endpoint = f'{self.API}/3/image/{imageHash}'
         headers = {'Authorization': f'Client-ID {self.client_id}'}

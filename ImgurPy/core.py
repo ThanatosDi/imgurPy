@@ -8,8 +8,17 @@ class Core(object):
         url: str,
         *args,
         **kwargs
-    ):
+    ) -> requests.Response:
+        """Make a request
 
+        Args:
+            method (str): request method.
+            url (str): request url.
+
+        Returns:
+            requests.Response: response of request.
+        """
+             
         response = requests.request(
             method.upper(),
             url,
@@ -17,5 +26,3 @@ class Core(object):
             **kwargs
         )
         return response
-
-    
