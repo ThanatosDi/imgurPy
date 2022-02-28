@@ -18,27 +18,24 @@ class Image(Authenticate):
         Authenticate.__init__(
             self, client_id, client_secret, refresh_token, API)
 
-    def Auth(func):
-        def warp(self, *args, **kwargs):
-            self.__access_token = self.access_token
-            return func(self, *args, **kwargs)
-        return warp
-
     def ImageUpload(
             self,
-            file: Union[str, bytes] = None,
-            type: str = 'file', **kwargs
+            file: Union[str, bytes],
+            type: str,
+            **kwargs
     ) -> dict:
         """Upload a new image or video.
 
         Args:
-            file (Union[str, bytes], optional): file path, file bytes or file url. Defaults to None.
-            type (str, optional): file, base64 or url. Defaults to 'file'.  
+            file (Union[str, bytes]): file path, file bytes or file url.
+            type (str): file, base64 or url.
             album (str, optional): upload image to the album. Defaults to None.
             name (str, optional): image file name.
             title (str, optional): image title.
             description (str, optional): image description.
             auth (bool, optional): if upload to hidden album, need to set True of auth. Default to False.
+        Return: 
+            dict:
         """
         endpoint = f'{self.API}/3/upload'
         headers = {'Authorization': f'Client-ID {self.client_id}'}
@@ -50,9 +47,9 @@ class Image(Authenticate):
             if kwargs.get('auth', False) == True else ...)
 
         params = ['album', 'name', 'title', 'description']
-        for parm in params:
-            (payload.update({parm: kwargs.get(parm, '')})
-                if kwargs.get(parm, '') != '' else ...)
+        for param in params:
+            (payload.update({param: kwargs.get(param, '')})
+                if kwargs.get(param, '') != '' else ...)
 
         (payload.update({'image': file})
             if type == 'url' or isinstance(file, str) else ...)
@@ -69,12 +66,14 @@ class Image(Authenticate):
         self,
         imageHash: str,
         auth: bool = False
-    ):
+    ) -> dict:
         """Deletes an image.
 
         Args:
-            imageHash (str): _description_
-            auth (bool, optional): _description_. Defaults to False.
+            imageHash (str): image hash (auth is True) or image delete hash (auth is False).
+            auth (bool, optional): auth. Defaults to False.
+        Return: 
+            dict:
         """
         endpoint = f'{self.API}/3/image/{imageHash}'
         headers = {'Authorization': f'Client-ID {self.client_id}'}
@@ -85,5 +84,36 @@ class Image(Authenticate):
             'delete',
             endpoint,
             headers=headers,
+        ).json()
+        return response
+
+    def ImageUpdate(
+        self,
+        imageHash: str,
+        auth: bool = False,
+        **kwargs
+    ) -> dict:
+        """Updates the title or description of an image.
+
+        Args:
+            imageHash (str): image hash (auth is True) or image delete hash (auth is False).
+            auth (bool, optional): auth. Defaults to False.
+        Return: 
+            dict:
+        """
+        endpoint = f'{self.API}/3/image/{imageHash}'
+        headers = {'Authorization': f'Client-ID {self.client_id}'}
+        params = ['title', 'description']
+        payload = {}
+        (headers.update({'Authorization': f'Bearer {self.access_token}'})
+            if auth == True else ...)
+        for param in params:
+            (payload.update({param: kwargs.get(param, '')})
+                if kwargs.get(param, '') != '' else ...)
+        response = self.make_request(
+            'post',
+            endpoint,
+            headers=headers,
+            data=payload,
         ).json()
         return response

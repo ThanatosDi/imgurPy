@@ -9,6 +9,10 @@ requests = "*"
 [dev-packages]
 autopep8 = "*"
 pytest = "*"
+sphinx = "*"
+sphinx-autobuild = "*"
+sphinx-rtd-theme = "*"
+myst-parser = "*"
 
 [requires]
 python_version = "3.8"

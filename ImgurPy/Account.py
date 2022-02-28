@@ -18,12 +18,6 @@ class Account(Authenticate):
         Authenticate.__init__(
             self, client_id, client_secret, refresh_token, API)
 
-    def Auth(func):
-        def warp(self, *args, **kwargs):
-            self.__access_token = self.access_token
-            return func(self, *args, **kwargs)
-        return warp
-
     def AccountBase(self, username: str) -> dict:
         """Request standard user information. If you need the username for the account that is logged in, it is returned in the request for an access token. Note: This endpoint also supports the ability to lookup account base info by account ID. To do so, pass the query parameter account_id.
 
@@ -31,7 +25,7 @@ class Account(Authenticate):
             username (str): username
 
         Returns:
-            dict
+            dict: response of AccountBase
         """
         endpoint = f'{self.API}/3/account/{username}'
         headers = {
@@ -43,7 +37,7 @@ class Account(Authenticate):
             headers=headers,
         ).json()
 
-    @Auth
+    # FIXME: 回傳型態不一致問題
     def AccountBlockStatus(self, username: str) -> dict:
         """Determine if the user making the request has blocked a username.
 
@@ -51,8 +45,9 @@ class Account(Authenticate):
             username (str): username
 
         Returns:
-            bool
+            bool: True or False
         """
+        self.__access_token = self.access_token
         endpoint = f'{self.API}/account/v1/{username}/block'
         headers = {
             'Authorization': f'Bearer {self.__access_token}',
