@@ -59,3 +59,28 @@ class Account(Authenticate):
             headers=headers,
         ).json()
         return response
+
+    def AccountAlbum(
+        self,
+        username: str,
+        albumHash: str
+    ) -> dict:
+        """Get additional information about an album, this endpoint works the same as the Album Endpoint. You can also use any of the additional routes that are used on an album in the album endpoint.
+
+        Args:
+            username (str): username
+            albumHash (str): hash of the album
+
+        Returns:
+            dict: response of request
+        """        
+        endpoint = f'{self.API}/3/account/{username}/album/{albumHash}'
+        headers = {
+            'Authorization': f'Bearer {self.access_token}'
+        }
+        response = self.make_request(
+            'get',
+            endpoint,
+            headers=headers,
+        ).json()
+        return response
