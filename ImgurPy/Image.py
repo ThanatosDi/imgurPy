@@ -1,5 +1,8 @@
-from .Authenticate import Authenticate
 from typing import Union
+
+import requests
+
+from .Authenticate import Authenticate
 
 
 class Image(Authenticate):
@@ -17,6 +20,29 @@ class Image(Authenticate):
         self.__access_token = None
         Authenticate.__init__(
             self, client_id, client_secret, refresh_token, API)
+
+    def Image(
+        self,
+        imageHash: str
+    ) -> requests.Response:
+        """Get information about an image.
+
+        Args:
+            imageHash (str): image hash
+
+        Returns:
+            dict: response of request
+        """
+        endpoint = f'{self.API}/3/image/{imageHash}'
+        headers = {
+            'Authorization': 'Client-ID bbb05a47ec9b35e'
+        }
+        response = self.make_request(
+            'get',
+            endpoint,
+            headers=headers,
+        )
+        return response
 
     def ImageUpload(
             self,

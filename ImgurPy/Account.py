@@ -37,7 +37,6 @@ class Account(Authenticate):
             headers=headers,
         ).json()
 
-    # FIXME: 回傳型態不一致問題
     def AccountBlockStatus(self, username: str) -> dict:
         """Determine if the user making the request has blocked a username.
 
