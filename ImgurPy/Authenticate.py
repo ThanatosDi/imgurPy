@@ -25,17 +25,17 @@ class Authenticate(Core):
         return f'{self.API}/oauth2/authorize?client_id={self.client_id}&response_type=token'
 
     @property
-    def access_token(self):
+    async def access_token(self):
         """Call GenerateAccessToken and return access token.
 
         Returns:
             str: access token
         """        
-        response = self.GenerateAccessToken()
+        response = await self.GenerateAccessToken()
         self.__access_token = response['access_token']
         return self.__access_token
 
-    def GenerateAccessToken(self) -> dict:
+    async def GenerateAccessToken(self) -> dict:
         """Given a user's refresh token, this endpoint generates an access token.
 
         Returns:
@@ -48,9 +48,9 @@ class Authenticate(Core):
             'refresh_token': self.refresh_token,
             'grant_type': 'refresh_token',
         }
-        response = self.make_request(
+        response = (await self.make_request(
             "post",
             endpoint,
             data=payload
-        ).json()
+        )).json()
         return response

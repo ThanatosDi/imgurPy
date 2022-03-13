@@ -18,7 +18,7 @@ class Image(Authenticate):
         Authenticate.__init__(
             self, client_id, client_secret, refresh_token, API)
 
-    def ImageUpload(
+    async def ImageUpload(
             self,
             file: Union[str, bytes],
             type: str,
@@ -43,7 +43,7 @@ class Image(Authenticate):
             'type': type
         }
 
-        (headers.update({'Authorization': f'Bearer {self.access_token}'})
+        (headers.update({'Authorization': f'Bearer {await self.access_token}'})
             if kwargs.get('auth', False) == True else ...)
 
         params = ['album', 'name', 'title', 'description']
@@ -54,15 +54,15 @@ class Image(Authenticate):
         (payload.update({'image': file})
             if type == 'url' or isinstance(file, str) else ...)
 
-        response = self.make_request(
+        response = (await self.make_request(
             'post',
             endpoint,
             headers=headers,
             data=payload
-        ).json()
+        )).json()
         return response
 
-    def ImageDelete(
+    async def ImageDelete(
         self,
         imageHash: str,
         auth: bool = False
@@ -77,17 +77,17 @@ class Image(Authenticate):
         """
         endpoint = f'{self.API}/3/image/{imageHash}'
         headers = {'Authorization': f'Client-ID {self.client_id}'}
-        (headers.update({'Authorization': f'Bearer {self.access_token}'})
+        (headers.update({'Authorization': f'Bearer {await self.access_token}'})
             if auth == True else ...)
 
-        response = self.make_request(
+        response = (await self.make_request(
             'delete',
             endpoint,
             headers=headers,
-        ).json()
+        )).json()
         return response
 
-    def ImageUpdate(
+    async def ImageUpdate(
         self,
         imageHash: str,
         auth: bool = False,
@@ -105,15 +105,15 @@ class Image(Authenticate):
         headers = {'Authorization': f'Client-ID {self.client_id}'}
         params = ['title', 'description']
         payload = {}
-        (headers.update({'Authorization': f'Bearer {self.access_token}'})
+        (headers.update({'Authorization': f'Bearer {await self.access_token}'})
             if auth == True else ...)
         for param in params:
             (payload.update({param: kwargs.get(param, '')})
                 if kwargs.get(param, '') != '' else ...)
-        response = self.make_request(
+        response = (await self.make_request(
             'post',
             endpoint,
             headers=headers,
             data=payload,
-        ).json()
+        )).json()
         return response

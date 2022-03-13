@@ -17,7 +17,7 @@ class Album(Authenticate):
         Authenticate.__init__(
             self, client_id, client_secret, refresh_token, API)
 
-    def Album(self, albumHash: str) -> dict:
+    async def Album(self, albumHash: str) -> dict:
         """Get additional information about an album.
 
         Args:
@@ -30,14 +30,14 @@ class Album(Authenticate):
         headers = {
             'Authorization': f'Client-ID {self.client_id}'
         }
-        response = self.make_request(
+        response = (await self.make_request(
             'get',
             endpoint,
             headers=headers
-        ).json()
+        )).json()
         return response
 
-    def AlbumImages(self, albumHash: str) -> dict:
+    async def AlbumImages(self, albumHash: str) -> dict:
         """Return all of the images in the album.
 
         Args:
@@ -50,14 +50,14 @@ class Album(Authenticate):
         headers = {
             'Authorization': f'Client-ID {self.client_id}'
         }
-        response = self.make_request(
+        response = (await self.make_request(
             'get',
             endpoint,
             headers=headers
-        ).json()
+        )).json()
         return response
 
-    def AlbumImage(self, albumHash: str, imageHash:str) -> dict:
+    async def AlbumImage(self, albumHash: str, imageHash:str) -> dict:
         """Get information about an image in an album, any additional actions found in Image Endpoint will also work.
 
         Args:
@@ -71,11 +71,11 @@ class Album(Authenticate):
         headers = {
             'Authorization': f'Client-ID {self.client_id}'
         }
-        response = self.make_request(
+        response = (await self.make_request(
             'get',
             endpoint,
             headers=headers
-        ).json()
+        )).json()
         return response
 
     
