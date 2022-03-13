@@ -4,8 +4,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="imgurPy[async]",
-    version="0.0.1beta",
+    name="imgurPy",
+    version="0.0.1b0",
     author="ThanatosDi",
     author_email="ThanatosDi@kttsite.com",
     description="imgur python library (not official)",
